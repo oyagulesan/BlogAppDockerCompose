@@ -1,0 +1,38 @@
+version: "2"
+services:
+  app-migrator:
+    image: mysql
+    volumes: 
+      - ./MysqlDocker/sql-scripts/mysqldump.sql:/mysqldump.sql
+    restart: on-failure
+    command: bash -c 'mysql -uroot -p5678 -happ-db < /mysqldump.sql'
+
+  app-blogapp:
+    image: oyagulesan/blogapp:0.1
+    build: ./BlogAppDocker
+    ports:
+      - "5050:5050"
+    restart: always
+
+  app-blogappp:  
+    image: oyagulesan/blogappp:0.1
+    build: ./BlogAppPublicDocker
+    ports:
+      - "5060:5060"
+    restart: always
+
+  app-blogappu:  
+    image: oyagulesan/blogappu:0.1
+    build: ./BlogAppUnsecureDocker
+    ports:
+      - "5070:5070"
+    restart: always
+
+  app-db:
+    image: oyagulesan/mysqlblogapp:0.1
+    build: ./MysqlDocker
+    environment:
+      - MYSQL_ROOT_PASSWORD=5678
+    ports: 
+      - "3306:3306"
+    restart: always
