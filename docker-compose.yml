@@ -29,8 +29,7 @@ services:
     restart: always
 
   app-db:
-    image: oyagulesan/mysqlblogapp:0.1
-    build: ./MysqlDocker
+    image: mysql
     environment:
       - MYSQL_ROOT_PASSWORD=5678
     ports: 
